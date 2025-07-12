@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       premiumAmount,
       paymentMethod: 'clabe',
       clabeId: validatedData.depositId,
-      status: 'active' // Set to active since payment is verified in mock mode
+      status: 'pending' // Set to pending - will be activated after 40 seconds
     })
     
     // Create single beneficiary (simplified)

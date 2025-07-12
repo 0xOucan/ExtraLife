@@ -20,6 +20,71 @@
       "id": "29287993-e416-4354-9abe-be802ab600c2",
       "policyNumber": "EL-50564945-HL8E",
       "createdAt": "2025-07-12T20:02:44.945Z"
+    },
+    {
+      "firstName": "Pedro",
+      "lastName": "Fuentes",
+      "email": "pedro@example.com",
+      "phone": "5555551234",
+      "birthDate": "1984-01-01",
+      "gender": "male",
+      "address": "Address not provided",
+      "city": "Ciudad de México",
+      "state": "Aguascalientes",
+      "postalCode": "12345",
+      "coverageType": "standard",
+      "coverageAmount": 250000,
+      "premiumAmount": 13750,
+      "paymentMethod": "clabe",
+      "clabeId": "clabe_1752351032540",
+      "status": "active",
+      "id": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "policyNumber": "EL-51045498-V4PL",
+      "createdAt": "2025-07-12T20:10:45.498Z"
+    },
+    {
+      "firstName": "Eleonor",
+      "lastName": "Ramirez",
+      "email": "eleonor@example.com",
+      "phone": "5555551234",
+      "birthDate": "1978-01-01",
+      "gender": "male",
+      "address": "Address not provided",
+      "city": "Ciudad de México",
+      "state": "Aguascalientes",
+      "postalCode": "12345",
+      "coverageType": "standard",
+      "coverageAmount": 250000,
+      "premiumAmount": 17875,
+      "paymentMethod": "clabe",
+      "clabeId": "clabe_1752351429044",
+      "status": "active",
+      "id": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "policyNumber": "EL-51439879-6FQD",
+      "createdAt": "2025-07-12T20:17:19.879Z",
+      "activatedAt": "2025-07-12T20:21:32.243Z"
+    },
+    {
+      "firstName": "Pedro",
+      "lastName": "Perez",
+      "email": "pedro@example.com",
+      "phone": "5555551234",
+      "birthDate": "2000-01-01",
+      "gender": "male",
+      "address": "Address not provided",
+      "city": "Ciudad de México",
+      "state": "Aguascalientes",
+      "postalCode": "12345",
+      "coverageType": "standard",
+      "coverageAmount": 250000,
+      "premiumAmount": 11000,
+      "paymentMethod": "clabe",
+      "clabeId": "clabe_1752351982045",
+      "status": "active",
+      "id": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "policyNumber": "EL-51989364-K4OA",
+      "createdAt": "2025-07-12T20:26:29.364Z",
+      "activatedAt": "2025-07-12T20:27:09.716Z"
     }
   ],
   "beneficiaries": [
@@ -35,6 +100,45 @@
       "idNumber": "ID123456789",
       "id": "23d97877-fd1c-43a1-af7e-89248e3edefc",
       "createdAt": "2025-07-12T20:02:45.047Z"
+    },
+    {
+      "policyId": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "firstName": "Ludovico",
+      "lastName": "Peluche",
+      "relationship": "family",
+      "percentage": 100,
+      "email": "ludovico@example.com",
+      "phone": "5555555678",
+      "idType": "national_id",
+      "idNumber": "ID123456789",
+      "id": "02fdbe9e-5a3f-4a02-9e6a-4273e3fed561",
+      "createdAt": "2025-07-12T20:10:45.501Z"
+    },
+    {
+      "policyId": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "firstName": "Ludovico",
+      "lastName": "Peluche",
+      "relationship": "family",
+      "percentage": 100,
+      "email": "ludovico@example.com",
+      "phone": "5555555678",
+      "idType": "national_id",
+      "idNumber": "ID123456789",
+      "id": "6abfe895-d907-44df-ae57-877bf594b5ed",
+      "createdAt": "2025-07-12T20:17:19.883Z"
+    },
+    {
+      "policyId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "firstName": "Ludovico",
+      "lastName": "Peluche",
+      "relationship": "family",
+      "percentage": 100,
+      "email": "ludovico@example.com",
+      "phone": "5555555678",
+      "idType": "national_id",
+      "idNumber": "ID123456789",
+      "id": "2ff279cc-c24d-4a91-bdd3-09f971b0ea2a",
+      "createdAt": "2025-07-12T20:26:29.367Z"
     }
   ],
   "claims": [
@@ -46,10 +150,71 @@
       "additionalDocuments": [],
       "status": "paid",
       "id": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
-      "claimNumber": "CL-50871728-UD2F",
-      "createdAt": "2025-07-12T20:07:51.728Z",
-      "paidAt": "2025-07-12T20:07:51.837Z",
+      "claimNumber": "CL-50871837-NJLQ",
+      "createdAt": "2025-07-12T20:07:51.837Z",
+      "paidAt": "2025-07-12T20:07:51.851Z",
       "transactionId": "tx_1752350871837"
+    },
+    {
+      "policyId": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_67890",
+      "additionalDocuments": [],
+      "status": "paid",
+      "id": "25ed1830-b453-49bc-bda3-2656690eb225",
+      "claimNumber": "CL-51376577-96FW",
+      "createdAt": "2025-07-12T20:16:16.577Z",
+      "paidAt": "2025-07-12T20:16:16.581Z",
+      "transactionId": "tx_1752351376581"
+    },
+    {
+      "policyId": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_67890",
+      "additionalDocuments": [],
+      "status": "paid",
+      "id": "fa3e6893-17c0-4726-9f80-632c189c3d47",
+      "claimNumber": "CL-51382960-9VGK",
+      "createdAt": "2025-07-12T20:16:22.960Z",
+      "paidAt": "2025-07-12T20:16:22.962Z",
+      "transactionId": "tx_1752351382962"
+    },
+    {
+      "policyId": "29287993-e416-4354-9abe-be802ab600c2",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_1752351547001",
+      "additionalDocuments": [],
+      "status": "paid",
+      "id": "dc377840-8ab9-4c37-b1ce-bb46d24260f5",
+      "claimNumber": "CL-51548341-QEBR",
+      "createdAt": "2025-07-12T20:19:08.341Z",
+      "paidAt": "2025-07-12T20:19:08.344Z",
+      "transactionId": "tx_1752351548344"
+    },
+    {
+      "policyId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_1752352040376",
+      "additionalDocuments": [],
+      "status": "submitted",
+      "id": "07d52136-5d3f-44b8-a25d-19876404d3dc",
+      "claimNumber": "CL-52041612-EVFT",
+      "createdAt": "2025-07-12T20:27:21.612Z"
+    },
+    {
+      "policyId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_1752352065019",
+      "additionalDocuments": [],
+      "status": "submitted",
+      "id": "c1e74680-6a0e-4b83-ad63-339f4c3c4ae8",
+      "claimNumber": "CL-52066817-EYLL",
+      "createdAt": "2025-07-12T20:27:46.817Z"
     }
   ],
   "junoTransactions": [],
@@ -74,22 +239,175 @@
       "createdAt": "2025-07-12T20:02:45.052Z"
     },
     {
-      "id": "7aa4fab3-1ba5-48db-b311-3e0aa7dfe689",
+      "id": "a3a0ee95-5e95-4f3b-87a8-0dd8ca481e55",
       "level": "info",
       "action": "claim_created",
       "entityType": "claim",
       "entityId": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
       "message": "New insurance claim submitted",
-      "createdAt": "2025-07-12T20:07:51.732Z"
+      "createdAt": "2025-07-12T20:07:51.839Z"
     },
     {
-      "id": "ad9d49b5-af9e-48e1-8a3b-295f42d2b864",
+      "id": "ef7a2b5c-6b1c-4f4c-88d5-b3a6de7a9c41",
       "level": "info",
       "action": "claim_updated",
       "entityType": "claim",
       "entityId": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
       "message": "Insurance claim updated",
       "createdAt": "2025-07-12T20:07:51.852Z"
+    },
+    {
+      "id": "6c53ed84-0284-47a7-827d-5d5281ec2860",
+      "level": "info",
+      "action": "policy_created",
+      "entityType": "policy",
+      "entityId": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "message": "New insurance policy created",
+      "createdAt": "2025-07-12T20:10:45.500Z"
+    },
+    {
+      "id": "6b1d3cde-25ce-4295-827a-b30f1b6e5fce",
+      "level": "info",
+      "action": "beneficiary_created",
+      "entityType": "policy",
+      "entityId": "9d787910-cd5f-48d5-89f8-f83d3117b6d7",
+      "message": "New beneficiary added to policy",
+      "createdAt": "2025-07-12T20:10:45.501Z"
+    },
+    {
+      "id": "41f336c1-145e-41dc-8c9a-37e48ec729e1",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "25ed1830-b453-49bc-bda3-2656690eb225",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:16:16.580Z"
+    },
+    {
+      "id": "0d1ae2f4-8276-44d6-9cd7-a88accff3ea5",
+      "level": "info",
+      "action": "claim_updated",
+      "entityType": "claim",
+      "entityId": "25ed1830-b453-49bc-bda3-2656690eb225",
+      "message": "Insurance claim updated",
+      "createdAt": "2025-07-12T20:16:16.582Z"
+    },
+    {
+      "id": "ca866587-e68b-4cbe-b1cd-7d84bc13e5a3",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "fa3e6893-17c0-4726-9f80-632c189c3d47",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:16:22.961Z"
+    },
+    {
+      "id": "c92827bb-04e2-482a-b61f-a0cbf2337097",
+      "level": "info",
+      "action": "claim_updated",
+      "entityType": "claim",
+      "entityId": "fa3e6893-17c0-4726-9f80-632c189c3d47",
+      "message": "Insurance claim updated",
+      "createdAt": "2025-07-12T20:16:22.963Z"
+    },
+    {
+      "id": "a0e81178-5a0a-49e0-a2b4-324ec95e34b5",
+      "level": "info",
+      "action": "policy_created",
+      "entityType": "policy",
+      "entityId": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "message": "New insurance policy created",
+      "createdAt": "2025-07-12T20:17:19.881Z"
+    },
+    {
+      "id": "5804c09e-7eb7-4118-a020-f34375903f58",
+      "level": "info",
+      "action": "beneficiary_created",
+      "entityType": "policy",
+      "entityId": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "message": "New beneficiary added to policy",
+      "createdAt": "2025-07-12T20:17:19.885Z"
+    },
+    {
+      "id": "39aef8a7-5e41-4ed2-9c7a-7df7472f0745",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "dc377840-8ab9-4c37-b1ce-bb46d24260f5",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:19:08.342Z"
+    },
+    {
+      "id": "65a88bf0-4635-4dc9-8ff3-16ee99d04756",
+      "level": "info",
+      "action": "claim_updated",
+      "entityType": "claim",
+      "entityId": "dc377840-8ab9-4c37-b1ce-bb46d24260f5",
+      "message": "Insurance claim updated",
+      "createdAt": "2025-07-12T20:19:08.345Z"
+    },
+    {
+      "id": "190d4c20-0a20-46a4-831f-94c6fe17f3fb",
+      "level": "info",
+      "action": "policy_updated",
+      "entityType": "policy",
+      "entityId": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "message": "Insurance policy updated",
+      "createdAt": "2025-07-12T20:21:07.896Z"
+    },
+    {
+      "id": "5d9fd0c8-b12b-4c0e-9325-46eeead7e77e",
+      "level": "info",
+      "action": "policy_updated",
+      "entityType": "policy",
+      "entityId": "6094d258-07c3-49e9-9c8e-d3802b2c4886",
+      "message": "Insurance policy updated",
+      "createdAt": "2025-07-12T20:21:32.245Z"
+    },
+    {
+      "id": "acb2288e-6f83-4f34-a39a-4a6dc49d2e20",
+      "level": "info",
+      "action": "policy_created",
+      "entityType": "policy",
+      "entityId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "message": "New insurance policy created",
+      "createdAt": "2025-07-12T20:26:29.366Z"
+    },
+    {
+      "id": "980f0ff5-421a-4bfb-ba1f-617ddf09d8d4",
+      "level": "info",
+      "action": "beneficiary_created",
+      "entityType": "policy",
+      "entityId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "message": "New beneficiary added to policy",
+      "createdAt": "2025-07-12T20:26:29.368Z"
+    },
+    {
+      "id": "dc850d68-ff3d-4948-8e21-a5e313585094",
+      "level": "info",
+      "action": "policy_updated",
+      "entityType": "policy",
+      "entityId": "77376653-7de0-4f69-9ba2-0e7fc779765b",
+      "message": "Insurance policy updated",
+      "createdAt": "2025-07-12T20:27:09.720Z"
+    },
+    {
+      "id": "c9a805d5-cbd3-498b-9c3a-5234e63da110",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "07d52136-5d3f-44b8-a25d-19876404d3dc",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:27:21.613Z"
+    },
+    {
+      "id": "54769322-5a02-4c4c-aec8-d0b8c3795fb0",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "c1e74680-6a0e-4b83-ad63-339f4c3c4ae8",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:27:46.819Z"
     }
   ]
 }
