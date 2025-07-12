@@ -16,7 +16,7 @@
       "premiumAmount": 11875,
       "paymentMethod": "clabe",
       "clabeId": "clabe_1752350217364",
-      "status": "pending",
+      "status": "active",
       "id": "29287993-e416-4354-9abe-be802ab600c2",
       "policyNumber": "EL-50564945-HL8E",
       "createdAt": "2025-07-12T20:02:44.945Z"
@@ -37,7 +37,21 @@
       "createdAt": "2025-07-12T20:02:45.047Z"
     }
   ],
-  "claims": [],
+  "claims": [
+    {
+      "policyId": "29287993-e416-4354-9abe-be802ab600c2",
+      "claimType": "death",
+      "claimAmount": 250000,
+      "deathCertificateUrl": "verification://verification_12345",
+      "additionalDocuments": [],
+      "status": "paid",
+      "id": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
+      "claimNumber": "CL-50871728-UD2F",
+      "createdAt": "2025-07-12T20:07:51.728Z",
+      "paidAt": "2025-07-12T20:07:51.837Z",
+      "transactionId": "tx_1752350871837"
+    }
+  ],
   "junoTransactions": [],
   "clabes": [],
   "systemLogs": [
@@ -58,6 +72,24 @@
       "entityId": "29287993-e416-4354-9abe-be802ab600c2",
       "message": "New beneficiary added to policy",
       "createdAt": "2025-07-12T20:02:45.052Z"
+    },
+    {
+      "id": "7aa4fab3-1ba5-48db-b311-3e0aa7dfe689",
+      "level": "info",
+      "action": "claim_created",
+      "entityType": "claim",
+      "entityId": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
+      "message": "New insurance claim submitted",
+      "createdAt": "2025-07-12T20:07:51.732Z"
+    },
+    {
+      "id": "ad9d49b5-af9e-48e1-8a3b-295f42d2b864",
+      "level": "info",
+      "action": "claim_updated",
+      "entityType": "claim",
+      "entityId": "4640328f-60e6-4e63-bcb5-99c1e5d3fe7b",
+      "message": "Insurance claim updated",
+      "createdAt": "2025-07-12T20:07:51.852Z"
     }
   ]
 }
