@@ -1,8 +1,63 @@
 {
-  "policies": [],
-  "beneficiaries": [],
+  "policies": [
+    {
+      "firstName": "Rosa",
+      "lastName": "Melchoto",
+      "email": "rosa@example.com",
+      "phone": "5555551234",
+      "birthDate": "1988-01-01",
+      "gender": "female",
+      "address": "Address not provided",
+      "city": "Ciudad de México",
+      "state": "Baja California",
+      "postalCode": "12345",
+      "coverageType": "standard",
+      "coverageAmount": 250000,
+      "premiumAmount": 11875,
+      "paymentMethod": "clabe",
+      "clabeId": "clabe_1752350217364",
+      "status": "pending",
+      "id": "29287993-e416-4354-9abe-be802ab600c2",
+      "policyNumber": "EL-50564945-HL8E",
+      "createdAt": "2025-07-12T20:02:44.945Z"
+    }
+  ],
+  "beneficiaries": [
+    {
+      "policyId": "29287993-e416-4354-9abe-be802ab600c2",
+      "firstName": "Ludovico",
+      "lastName": "Peluche",
+      "relationship": "family",
+      "percentage": 100,
+      "email": "ludovico@example.com",
+      "phone": "5555555678",
+      "idType": "national_id",
+      "idNumber": "ID123456789",
+      "id": "23d97877-fd1c-43a1-af7e-89248e3edefc",
+      "createdAt": "2025-07-12T20:02:45.047Z"
+    }
+  ],
   "claims": [],
   "junoTransactions": [],
   "clabes": [],
-  "systemLogs": []
+  "systemLogs": [
+    {
+      "id": "6ed5efe7-0dd6-493d-804f-176449b37600",
+      "level": "info",
+      "action": "policy_created",
+      "entityType": "policy",
+      "entityId": "29287993-e416-4354-9abe-be802ab600c2",
+      "message": "New insurance policy created",
+      "createdAt": "2025-07-12T20:02:44.948Z"
+    },
+    {
+      "id": "bece85d3-2633-45c7-a23f-79a1445c792d",
+      "level": "info",
+      "action": "beneficiary_created",
+      "entityType": "policy",
+      "entityId": "29287993-e416-4354-9abe-be802ab600c2",
+      "message": "New beneficiary added to policy",
+      "createdAt": "2025-07-12T20:02:45.052Z"
+    }
+  ]
 }
