@@ -73,6 +73,11 @@ export default function CheckoutPage() {
     const stored = sessionStorage.getItem("extralife_user_data")
     if (stored) {
       setUserData(JSON.parse(stored))
+      // Retrieve last policy number from localStorage and set it
+      const storedPolicyNumber = localStorage.getItem("lastPolicyNumber")
+      if (storedPolicyNumber) {
+        setPolicyNumber(storedPolicyNumber)
+      }
     } else {
       router.push("/dapp")
     }
@@ -162,8 +167,14 @@ export default function CheckoutPage() {
       })
       console.log("✅ Policy created on-chain. Tx hash:", txHash)
       setPolicyTxHash(txHash)
+      await fetch("/api/policies/save-hash", {
+        method: "POST",
+        body: JSON.stringify({ policyHash: txHash }),
+      })
       setPolicyNumber(txHash)
       setPolicyCreated(true)
+      // Persist the policy number in localStorage
+      localStorage.setItem("lastPolicyNumber", txHash)
 
       generatePolicyPDF({
         policyHolder: userData.policyHolderName,

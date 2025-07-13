@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -75,6 +75,12 @@ interface ClaimResult {
 
 export default function ClaimsPage() {
   const router = useRouter()
+  useEffect(() => {
+    const storedPolicyNumber = localStorage.getItem("lastPolicyNumber");
+    if (storedPolicyNumber) {
+      setPolicyNumber(storedPolicyNumber);
+    }
+  }, []);
   const [currentStep, setCurrentStep] = useState(1)
   const [policyNumber, setPolicyNumber] = useState("")
   const [policy, setPolicy] = useState<Policy | null>(null)
