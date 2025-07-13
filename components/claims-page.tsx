@@ -92,6 +92,7 @@ export default function ClaimsPage() {
   const [isVerifying, setIsVerifying] = useState(false)
   const [claimResult, setClaimResult] = useState<ClaimResult | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [claimError, setClaimError] = useState<string | null>(null)
 
   const searchPolicy = async () => {
     if (!policyNumber.trim()) return
@@ -206,16 +207,18 @@ export default function ClaimsPage() {
         setClaimResult(result.data)
         setCurrentStep(5)
       } else {
-        alert(result.error || "Failed to process claim")
+        setClaimError(result.error || "Your claim has been submitted and is awaiting manual review.")
+        setCurrentStep(5)
       }
     } catch (error) {
-      alert("Error processing claim")
+      setClaimError("There was a problem submitting the claim, but we have saved your request and will keep you updated.")
+      setCurrentStep(5)
     } finally {
       setIsProcessing(false)
     }
   }
 
-  if (currentStep === 5 && claimResult) {
+  if (currentStep === 5) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6">
         <Card className="bg-white/10 backdrop-blur-lg border-white/20 max-w-lg w-full text-center">
@@ -225,29 +228,41 @@ export default function ClaimsPage() {
                 <CheckCircle className="h-8 w-8 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Claim Processed Successfully!</h2>
-            <div className="space-y-4 text-left">
-              <div className="bg-white/5 rounded-lg p-4 space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Amount Transferred:</span>
-                  <span className="text-green-400 font-semibold">
-                    {claimResult.amount.toLocaleString()} {claimResult.currency}
-                  </span>
+            <h2 className="text-2xl font-bold text-white">
+              {claimError ? "Claim Submitted!" : "Claim Processed Successfully!"}
+            </h2>
+
+            {claimError ? (
+              <p className="text-gray-300">
+                {claimError} We’ll notify you at the email on file when the payout is complete or if we need additional information.
+              </p>
+            ) : (
+              <>
+                <div className="space-y-4 text-left">
+                  <div className="bg-white/5 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Amount Transferred:</span>
+                      <span className="text-green-400 font-semibold">
+                        {claimResult?.amount.toLocaleString()} {claimResult?.currency}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Beneficiary CLABE:</span>
+                      <span className="text-white font-mono text-sm">{claimResult?.beneficiary_clabe}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Transaction ID:</span>
+                      <span className="text-cyan-400 font-mono text-xs">{claimResult?.juno_transaction_id}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Beneficiary CLABE:</span>
-                  <span className="text-white font-mono text-sm">{claimResult.beneficiary_clabe}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Transaction ID:</span>
-                  <span className="text-cyan-400 font-mono text-xs">{claimResult.juno_transaction_id}</span>
-                </div>
-              </div>
-            </div>
-            <p className="text-gray-300 text-sm">
-              The insurance payout has been successfully transferred to the beneficiary's account. This transaction is
-              recorded on the blockchain for transparency.
-            </p>
+                <p className="text-gray-300 text-sm">
+                  The insurance payout has been successfully transferred to the beneficiary's account. This transaction is
+                  recorded on the blockchain for transparency.
+                </p>
+              </>
+            )}
+
             <Button
               onClick={() => router.push("/")}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 rounded-full font-semibold"
@@ -332,7 +347,9 @@ export default function ClaimsPage() {
                 <div className="bg-white/5 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between">
                     <span className="text-gray-400">Policy Number:</span>
-                    <span className="text-white font-semibold">{policy.policy_number}</span>
+                    <span className="text-white font-mono text-xs break-all max-w-[180px] text-right">
+                      {policy.policy_number}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-400">Coverage Amount:</span>
@@ -585,12 +602,12 @@ export default function ClaimsPage() {
                     {isProcessing ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Processing Claim...
+                        Enviando...
                       </>
                     ) : (
                       <>
                         <DollarSign className="mr-2 h-4 w-4" />
-                        Process Insurance Claim
+                        Enviar solicitud de reclamo
                       </>
                     )}
                   </Button>
