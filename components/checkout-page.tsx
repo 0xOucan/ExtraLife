@@ -12,6 +12,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 
 import { simulateContract } from "viem/actions"
 
+import { generatePolicyPDF } from "@/lib/pdf/policy-pdf"
+
+const now = new Date()
+const issueDate = now.toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })
+const endDate = new Date(now.setFullYear(now.getFullYear() + 1)).toLocaleDateString()
 
 import {
   Shield,
@@ -159,6 +164,17 @@ export default function CheckoutPage() {
       setPolicyTxHash(txHash)
       setPolicyNumber(txHash)
       setPolicyCreated(true)
+
+      generatePolicyPDF({
+        policyHolder: userData.policyHolderName,
+        beneficiary: beneficiaryName,
+        coverageAmount: "1,000,000 MXNB",
+        premium: "10,000 MXNB",
+        issueDate,
+        endDate,
+        policyNumber: txHash,
+      })
+
     } catch (err) {
       console.error("Error creating policy:", err)
     } finally {
@@ -184,7 +200,9 @@ export default function CheckoutPage() {
             <h2 className="text-2xl font-bold text-white">Policy Created Successfully!</h2>
             <div className="space-y-2">
               <p className="text-gray-300">Your policy number is:</p>
-              <p className="text-xl font-bold text-cyan-400">{policyNumber}</p>
+              <p className="text-xl font-bold text-cyan-400 break-all max-w-full overflow-hidden">
+                {policyNumber}
+              </p>
               {policyTxHash && (
                 <div className="text-sm text-gray-400 break-all">
                   Tx Hash: <a
@@ -201,6 +219,22 @@ export default function CheckoutPage() {
             <p className="text-gray-300 text-sm">
               Your insurance policy is now active. Keep this policy number for your records.
             </p>
+            <Button
+              onClick={() =>
+                generatePolicyPDF({
+                  policyHolder: userData?.policyHolderName ?? "",
+                  beneficiary: beneficiaryName,
+                  coverageAmount: "1,000,000 MXNB",
+                  premium: "10,000 MXNB",
+                  issueDate,
+                  endDate,
+                  policyNumber: policyNumber,
+                })
+              }
+              className="w-full bg-white text-purple-700 border border-purple-500 hover:bg-purple-100 py-3 rounded-full font-semibold"
+            >
+              Descargar Póliza en PDF
+            </Button>
             <Button
               onClick={() => router.push("/")}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 rounded-full font-semibold"
