@@ -139,7 +139,7 @@ export default function CheckoutPage() {
     setIsCreatingPolicy(true)
     try {
       const address = deployerAddress // signer de backend
-      const genderAsNumber = userData.gender === "male" ? 1 : 0
+      const genderAsNumber = userData.gender === "Male" ? 1 : 0
       const coverageAmount = 1_000_000n * 10n ** 18n
       const premium = 10_000n * 10n ** 18n
 
@@ -208,15 +208,15 @@ export default function CheckoutPage() {
                 <Check className="h-8 w-8 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Policy Created Successfully!</h2>
+            <h2 className="text-2xl font-bold text-white">¡Póliza creada con éxito!</h2>
             <div className="space-y-2">
-              <p className="text-gray-300">Your policy number is:</p>
+              <p className="text-gray-300">Tu número de póliza es:</p>
               <p className="text-xl font-bold text-cyan-400 break-all max-w-full overflow-hidden">
                 {policyNumber}
               </p>
               {policyTxHash && (
                 <div className="text-sm text-gray-400 break-all">
-                  Tx Hash: <a
+                  Hash de transacción: <a
                     href={`https://sepolia.arbiscan.io/tx/${policyTxHash}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -228,7 +228,7 @@ export default function CheckoutPage() {
               )}
             </div>
             <p className="text-gray-300 text-sm">
-              Your insurance policy is now active. Keep this policy number for your records.
+              Tu póliza de seguro ahora está activa. Guarda este número para futuras referencias.
             </p>
             <Button
               onClick={() =>
@@ -244,13 +244,13 @@ export default function CheckoutPage() {
               }
               className="w-full bg-white text-purple-700 border border-purple-500 hover:bg-purple-100 py-3 rounded-full font-semibold"
             >
-              Descargar Póliza en PDF
+              Descargar póliza en PDF
             </Button>
             <Button
               onClick={() => router.push("/")}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 rounded-full font-semibold"
             >
-              Return to Home
+              Regresar al inicio
             </Button>
           </CardContent>
         </Card>
@@ -265,14 +265,14 @@ export default function CheckoutPage() {
         <div className="flex justify-between items-center max-w-4xl mx-auto">
           <Button variant="ghost" onClick={() => router.back()} className="text-white hover:bg-white/10">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back
+            Atrás
           </Button>
           <div className="flex items-center space-x-2">
             <Shield className="h-8 w-8 text-cyan-400" />
             <span className="text-2xl font-bold text-white">Extra Life</span>
           </div>
           <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
-            Checkout
+            Contratación
           </Badge>
         </div>
       </header>
@@ -300,9 +300,9 @@ export default function CheckoutPage() {
             </div>
           </div>
           <div className="flex justify-between mt-2 text-sm text-gray-400 max-w-md mx-auto">
-            <span>Generate CLABE</span>
-            <span>Verify Deposit</span>
-            <span>Complete Policy</span>
+            <span>Generar CLABE</span>
+            <span>Verificar depósito</span>
+            <span>Completar póliza</span>
           </div>
         </div>
 
@@ -312,22 +312,22 @@ export default function CheckoutPage() {
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-white flex items-center">
                 <CreditCard className="mr-2 h-6 w-6 text-cyan-400" />
-                Payment Summary
+                Resumen de pago
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="bg-white/5 rounded-lg p-6">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-gray-300">Coverage Amount</span>
+                  <span className="text-gray-300">Monto asegurado</span>
                   <span className="text-white font-semibold">1,000,000 MXNB</span>
                 </div>
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-gray-300">Annual Premium</span>
+                  <span className="text-gray-300">Prima anual</span>
                   <span className="text-white font-semibold">10,000 MXNB</span>
                 </div>
                 <div className="border-t border-white/20 pt-4">
                   <div className="flex justify-between items-center">
-                    <span className="text-lg font-semibold text-white">Total Due</span>
+                    <span className="text-lg font-semibold text-white">Total a pagar</span>
                     <span className="text-2xl font-bold text-cyan-400">10,000 MXNB</span>
                   </div>
                 </div>
@@ -335,22 +335,22 @@ export default function CheckoutPage() {
 
               {/* Policy Holder Info */}
               <div className="bg-white/5 rounded-lg p-4">
-                <h3 className="text-white font-semibold mb-3">Policy Holder Information</h3>
+                <h3 className="text-white font-semibold mb-3">Información del titular</h3>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Name:</span>
+                    <span className="text-gray-400">Nombre:</span>
                     <span className="text-white">{userData.policyHolderName}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Gender:</span>
+                    <span className="text-gray-400">Género:</span>
                     <span className="text-white capitalize">{userData.gender}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Age:</span>
-                    <span className="text-white">{userData.age} years</span>
+                    <span className="text-gray-400">Edad:</span>
+                    <span className="text-white">{userData.age} años</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Region:</span>
+                    <span className="text-gray-400">Región:</span>
                     <span className="text-white">{userData.region}</span>
                   </div>
                 </div>
@@ -362,12 +362,12 @@ export default function CheckoutPage() {
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-white">
-                Step {currentStep}:{" "}
+                Paso {currentStep}:{" "}
                 {currentStep === 1
-                  ? "Generate Deposit CLABE"
+                  ? "Generar CLABE de depósito"
                   : currentStep === 2
-                    ? "Verify Your Deposit"
-                    : "Complete Your Policy"}
+                    ? "Verificar tu depósito"
+                    : "Completa tu póliza"}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -377,7 +377,7 @@ export default function CheckoutPage() {
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-gray-300">
-                      We'll generate a unique CLABE number for you to make your premium deposit of 10,000 MXNB.
+                      Generaremos un número CLABE único para que realices el depósito de tu prima por 10,000 MXNB.
                     </AlertDescription>
                   </Alert>
 
@@ -389,10 +389,10 @@ export default function CheckoutPage() {
                     {isGeneratingClabe ? (
                       <>
                         <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
-                        Generating CLABE...
+                        Generando CLABE...
                       </>
                     ) : (
-                      "Generate CLABE for Deposit"
+                      "Generar CLABE para depósito"
                     )}
                   </Button>
                 </div>
@@ -404,13 +404,13 @@ export default function CheckoutPage() {
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-gray-300">
-                      Use this CLABE to deposit exactly 10,000 MXNB. The CLABE expires in 24 hours.
+                      Utiliza esta CLABE para depositar exactamente 10,000 MXNB. La CLABE expira en 24 horas.
                     </AlertDescription>
                   </Alert>
 
                   <div className="bg-white/5 rounded-lg p-4 space-y-3">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">CLABE Number:</span>
+                      <span className="text-gray-400">Número CLABE:</span>
                       <Button
                         variant="ghost"
                         size="sm"
@@ -421,7 +421,7 @@ export default function CheckoutPage() {
                       </Button>
                     </div>
                     <div className="text-xl font-mono text-white bg-black/20 p-3 rounded">{clabeData.clabe}</div>
-                    <div className="text-sm text-gray-400">Bank: {clabeData.bank_name}</div>
+                    <div className="text-sm text-gray-400">Banco: {clabeData.bank_name}</div>
                   </div>
 
                   <Button
@@ -432,10 +432,10 @@ export default function CheckoutPage() {
                     {isVerifyingDeposit ? (
                       <>
                         <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
-                        Verifying Deposit...
+                        Verificando depósito...
                       </>
                     ) : (
-                      "Verify Deposit"
+                      "Verificar depósito"
                     )}
                   </Button>
                 </div>
@@ -448,7 +448,7 @@ export default function CheckoutPage() {
                     <Alert className="border-green-500/20 bg-green-500/10">
                       <Check className="h-4 w-4 text-green-400" />
                       <AlertDescription className="text-green-400">
-                        Deposit verified successfully! Now provide your beneficiary information to complete your policy.
+                        ¡Depósito verificado exitosamente! Ahora proporciona la información del beneficiario para completar tu póliza.
                       </AlertDescription>
                     </Alert>
                   )}
@@ -457,13 +457,13 @@ export default function CheckoutPage() {
                   <div className="space-y-2">
                     <Label htmlFor="beneficiaryName" className="text-white flex items-center">
                       <Users className="mr-2 h-4 w-4 text-cyan-400" />
-                      Beneficiary Name
+                      Nombre del beneficiario
                     </Label>
                     <Input
                       id="beneficiaryName"
                       value={beneficiaryName}
                       onChange={(e) => setBeneficiaryName(e.target.value)}
-                      placeholder="Enter beneficiary's full name"
+                      placeholder="Ingresa el nombre completo del beneficiario"
                       className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     />
                   </div>
@@ -472,7 +472,7 @@ export default function CheckoutPage() {
                   <div className="space-y-2">
                     <Label htmlFor="beneficiaryClabe" className="text-white flex items-center">
                       <Users className="mr-2 h-4 w-4 text-cyan-400" />
-                      Beneficiary CLABE
+                      CLABE del beneficiario
                     </Label>
                     <Input
                       id="beneficiaryClabe"
@@ -481,17 +481,16 @@ export default function CheckoutPage() {
                         const value = e.target.value.replace(/\D/g, "").slice(0, 18)
                         setBeneficiaryClabe(value)
                       }}
-                      placeholder="Enter 18-digit CLABE number"
+                      placeholder="Ingresa una CLABE de 18 dígitos"
                       className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                       maxLength={18}
                     />
-                    <p className="text-xs text-gray-400">{beneficiaryClabe.length}/18 digits</p>
+                    <p className="text-xs text-gray-400">{beneficiaryClabe.length}/18 dígitos</p>
                   </div>
 
                   <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
                     <p className="text-yellow-400 text-sm">
-                      <strong>Important:</strong> Make sure the beneficiary information is correct. This person will
-                      receive the insurance payout in case of a claim.
+                      <strong>Importante:</strong> Asegúrate de que la información del beneficiario sea correcta. Esta persona recibirá el pago del seguro en caso de reclamación.
                     </p>
                   </div>
 
@@ -503,10 +502,10 @@ export default function CheckoutPage() {
                     {isCreatingPolicy ? (
                       <>
                         <RefreshCw className="mr-2 h-5 w-5 animate-spin" />
-                        Creating Policy...
+                        Creando póliza...
                       </>
                     ) : (
-                      "Create Insurance Policy"
+                      "Crear póliza de seguro"
                     )}
                   </Button>
                 </div>
