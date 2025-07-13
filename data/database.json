@@ -85,6 +85,28 @@
       "policyNumber": "EL-51989364-K4OA",
       "createdAt": "2025-07-12T20:26:29.364Z",
       "activatedAt": "2025-07-12T20:27:09.716Z"
+    },
+    {
+      "firstName": "Plauto",
+      "lastName": "User",
+      "email": "plauto@example.com",
+      "phone": "5555551234",
+      "birthDate": "1995-01-01",
+      "gender": "male",
+      "address": "Address not provided",
+      "city": "Ciudad de México",
+      "state": "Ciudad de México",
+      "postalCode": "12345",
+      "coverageType": "standard",
+      "coverageAmount": 250000,
+      "premiumAmount": 12375,
+      "paymentMethod": "clabe",
+      "clabeId": "clabe_1752398490266",
+      "status": "active",
+      "id": "747b0be0-0416-4219-8db0-fcc3a96503a2",
+      "policyNumber": "EL-98656226-Q2L4",
+      "createdAt": "2025-07-13T09:24:16.226Z",
+      "activatedAt": "2025-07-13T09:24:56.370Z"
     }
   ],
   "beneficiaries": [
@@ -139,6 +161,19 @@
       "idNumber": "ID123456789",
       "id": "2ff279cc-c24d-4a91-bdd3-09f971b0ea2a",
       "createdAt": "2025-07-12T20:26:29.367Z"
+    },
+    {
+      "policyId": "747b0be0-0416-4219-8db0-fcc3a96503a2",
+      "firstName": "Plautito",
+      "lastName": "Beneficiary",
+      "relationship": "family",
+      "percentage": 100,
+      "email": "plautito@example.com",
+      "phone": "5555555678",
+      "idType": "national_id",
+      "idNumber": "ID123456789",
+      "id": "b2144b49-4597-4ec1-91ca-791f06f9cc94",
+      "createdAt": "2025-07-13T09:24:16.234Z"
     }
   ],
   "claims": [
@@ -408,6 +443,33 @@
       "entityId": "c1e74680-6a0e-4b83-ad63-339f4c3c4ae8",
       "message": "New insurance claim submitted",
       "createdAt": "2025-07-12T20:27:46.819Z"
+    },
+    {
+      "id": "9cb4aff4-3c41-42f7-bb1b-c00008dd2cd8",
+      "level": "info",
+      "action": "policy_created",
+      "entityType": "policy",
+      "entityId": "747b0be0-0416-4219-8db0-fcc3a96503a2",
+      "message": "New insurance policy created",
+      "createdAt": "2025-07-13T09:24:16.233Z"
+    },
+    {
+      "id": "530f7fbe-e194-4be9-b661-bb83c884bf36",
+      "level": "info",
+      "action": "beneficiary_created",
+      "entityType": "policy",
+      "entityId": "747b0be0-0416-4219-8db0-fcc3a96503a2",
+      "message": "New beneficiary added to policy",
+      "createdAt": "2025-07-13T09:24:16.234Z"
+    },
+    {
+      "id": "38ed232a-52d8-4875-95cd-0d1c6fe0cc99",
+      "level": "info",
+      "action": "policy_updated",
+      "entityType": "policy",
+      "entityId": "747b0be0-0416-4219-8db0-fcc3a96503a2",
+      "message": "Insurance policy updated",
+      "createdAt": "2025-07-13T09:24:56.378Z"
     }
   ]
 }

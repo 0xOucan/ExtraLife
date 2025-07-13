@@ -1,14 +1,31 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Shield, CreditCard, ArrowLeft, Check, Copy, RefreshCw, Users, AlertCircle } from "lucide-react"
-import { useRouter } from "next/navigation"
+
+import { simulateContract } from "viem/actions"
+
+
+import {
+  Shield,
+  CreditCard,
+  ArrowLeft,
+  Check,
+  Copy,
+  RefreshCw,
+  Users,
+  AlertCircle,
+} from "lucide-react"
+
+import { publicClient, walletClient, deployerAddress } from "@/lib/viem"
+import { oncePolicyAbi } from "@/lib/abi/once-policy"
 
 interface UserData {
   gender: string
@@ -27,45 +44,54 @@ interface ClabeData {
 
 export default function CheckoutPage() {
   const router = useRouter()
+
+  // ─────────────────────────────────── State ────────────────────────────────────
   const [userData, setUserData] = useState<UserData | null>(null)
+
   const [currentStep, setCurrentStep] = useState(1)
   const [clabeData, setClabeData] = useState<ClabeData | null>(null)
+
   const [isGeneratingClabe, setIsGeneratingClabe] = useState(false)
   const [isVerifyingDeposit, setIsVerifyingDeposit] = useState(false)
   const [depositVerified, setDepositVerified] = useState(false)
+
   const [beneficiaryName, setBeneficiaryName] = useState("")
   const [beneficiaryClabe, setBeneficiaryClabe] = useState("")
+
   const [isCreatingPolicy, setIsCreatingPolicy] = useState(false)
   const [policyCreated, setPolicyCreated] = useState(false)
   const [policyNumber, setPolicyNumber] = useState("")
+  const [policyTxHash, setPolicyTxHash] = useState("")
 
+  // ───────────────────────────── Persisted form data ────────────────────────────
   useEffect(() => {
-    const storedData = sessionStorage.getItem("extralife_user_data")
-    if (storedData) {
-      setUserData(JSON.parse(storedData))
+    const stored = sessionStorage.getItem("extralife_user_data")
+    if (stored) {
+      setUserData(JSON.parse(stored))
     } else {
       router.push("/dapp")
     }
   }, [router])
 
+  // ──────────────────────────────── CLABE helpers ───────────────────────────────
   const generateClabe = async () => {
     setIsGeneratingClabe(true)
     try {
-      const response = await fetch("/api/juno/clabe", {
+      const res = await fetch("/api/juno/clabe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          amount: 10000,
+          amount: 10_000,
           reference: `extralife_${Date.now()}`,
         }),
       })
-      const result = await response.json()
-      if (result.success) {
-        setClabeData(result.data)
+      const json = await res.json()
+      if (json.success) {
+        setClabeData(json.data)
         setCurrentStep(2)
       }
-    } catch (error) {
-      console.error("Error generating CLABE:", error)
+    } catch (err) {
+      console.error("Error generating CLABE:", err)
     } finally {
       setIsGeneratingClabe(false)
     }
@@ -73,78 +99,81 @@ export default function CheckoutPage() {
 
   const verifyDeposit = async () => {
     if (!clabeData) return
-
     setIsVerifyingDeposit(true)
+
     try {
-      // First create a mock deposit for testing
+      // 👉 mock deposit for demo
       await fetch("/api/juno/deposits/mock", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          clabe_id: clabeData.id,
-          amount: 10000,
-        }),
+        body: JSON.stringify({ clabe_id: clabeData.id, amount: 10_000 }),
       })
-
-      // Then verify the deposit
-      const response = await fetch(`/api/juno/deposits?clabe_id=${clabeData.id}`)
-      const result = await response.json()
-
-      if (result.success && result.data.length > 0) {
+      // 👉 verify
+      const res = await fetch(`/api/juno/deposits?clabe_id=${clabeData.id}`)
+      const json = await res.json()
+      if (json.success && json.data.length > 0) {
         setDepositVerified(true)
         setCurrentStep(3)
       }
-    } catch (error) {
-      console.error("Error verifying deposit:", error)
+    } catch (err) {
+      console.error("Error verifying deposit:", err)
     } finally {
       setIsVerifyingDeposit(false)
     }
   }
 
+  // ─────────────────────────────── Mint ONCE policy ─────────────────────────────
   const createPolicy = async () => {
     if (!userData || !clabeData || !beneficiaryClabe || !beneficiaryName) return
 
     setIsCreatingPolicy(true)
     try {
-      const response = await fetch("/api/policies/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          gender: userData.gender,
-          age: userData.age,
-          region: userData.region,
-          policyHolderName: userData.policyHolderName,
-          beneficiaryName: beneficiaryName.trim(),
-          policyHolderClabe: clabeData.clabe,
-          beneficiaryClabe: beneficiaryClabe,
-          depositId: clabeData.id,
-          amount: 10000,
-        }),
+      const address = deployerAddress // signer de backend
+      const genderAsNumber = userData.gender === "male" ? 1 : 0
+      const coverageAmount = 1_000_000n * 10n ** 18n
+      const premium = 10_000n * 10n ** 18n
+
+      // Updated simulateContract call for deployed createPolicy function (8 parameters)
+      const { request } = await simulateContract(publicClient, {
+        address: "0x10D7A0cf0516A2a75a0825E1783947B18b198a91",
+        abi: oncePolicyAbi,
+        functionName: "createPolicy",
+        args: [
+          address,
+          deployerAddress, // assuming the deployer is also the beneficiary
+          userData.policyHolderName,
+          userData.age,
+          genderAsNumber,
+          userData.region,
+          coverageAmount,
+          premium
+        ],
+        account: address,
       })
 
-      const result = await response.json()
-      if (result.success) {
-        setPolicyNumber(result.data.policy_number)
-        setPolicyCreated(true)
-      }
-    } catch (error) {
-      console.error("Error creating policy:", error)
+      const txHash = await walletClient.writeContract({
+        ...request,
+        account: walletClient.account, // ✅ La línea mágica
+      })
+      console.log("✅ Policy created on-chain. Tx hash:", txHash)
+      setPolicyTxHash(txHash)
+      setPolicyNumber(txHash)
+      setPolicyCreated(true)
+    } catch (err) {
+      console.error("Error creating policy:", err)
     } finally {
       setIsCreatingPolicy(false)
     }
   }
 
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text)
-  }
+  const copyToClipboard = (text: string) => navigator.clipboard.writeText(text)
 
-  if (!userData) {
-    return <div>Loading...</div>
-  }
+  // ─────────────────────────────────── Render ───────────────────────────────────
+  if (!userData) return <div>Loading...</div>
 
   if (policyCreated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
         <Card className="bg-white/10 backdrop-blur-lg border-white/20 max-w-md w-full text-center">
           <CardContent className="pt-8 space-y-6">
             <div className="flex justify-center">
@@ -156,6 +185,18 @@ export default function CheckoutPage() {
             <div className="space-y-2">
               <p className="text-gray-300">Your policy number is:</p>
               <p className="text-xl font-bold text-cyan-400">{policyNumber}</p>
+              {policyTxHash && (
+                <div className="text-sm text-gray-400 break-all">
+                  Tx Hash: <a
+                    href={`https://sepolia.arbiscan.io/tx/${policyTxHash}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-cyan-300 underline"
+                  >
+                    {policyTxHash.slice(0, 10)}…{policyTxHash.slice(-8)}
+                  </a>
+                </div>
+              )}
             </div>
             <p className="text-gray-300 text-sm">
               Your insurance policy is now active. Keep this policy number for your records.
