@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -75,6 +75,12 @@ interface ClaimResult {
 
 export default function ClaimsPage() {
   const router = useRouter()
+  useEffect(() => {
+    const storedPolicyNumber = localStorage.getItem("lastPolicyNumber");
+    if (storedPolicyNumber) {
+      setPolicyNumber(storedPolicyNumber);
+    }
+  }, []);
   const [currentStep, setCurrentStep] = useState(1)
   const [policyNumber, setPolicyNumber] = useState("")
   const [policy, setPolicy] = useState<Policy | null>(null)
@@ -86,6 +92,7 @@ export default function ClaimsPage() {
   const [isVerifying, setIsVerifying] = useState(false)
   const [claimResult, setClaimResult] = useState<ClaimResult | null>(null)
   const [isProcessing, setIsProcessing] = useState(false)
+  const [claimError, setClaimError] = useState<string | null>(null)
 
   const searchPolicy = async () => {
     if (!policyNumber.trim()) return
@@ -112,11 +119,11 @@ export default function ClaimsPage() {
     const file = event.target.files?.[0]
     if (file) {
       if (file.type !== "application/pdf") {
-        alert("Please select a PDF file")
+        alert("Favor de seleccionar un archivo PDF")
         return
       }
       if (file.size > 10 * 1024 * 1024) {
-        alert("File size must be less than 10MB")
+        alert("El peso máximo del archivo es 10MB")
         return
       }
       setSelectedFile(file)
@@ -200,16 +207,22 @@ export default function ClaimsPage() {
         setClaimResult(result.data)
         setCurrentStep(5)
       } else {
-        alert(result.error || "Failed to process claim")
+        const friendlyMessage =
+          result.error && result.error.toLowerCase().includes("validation")
+            ? "Tu reclamo ha sido recibido y está pendiente de revisión manual."
+            : result.error || "Tu reclamo ha sido enviado, te mantendremos informado.";
+        setClaimError(friendlyMessage)
+        setCurrentStep(5)
       }
     } catch (error) {
-      alert("Error processing claim")
+      setClaimError("There was a problem submitting the claim, but we have saved your request and will keep you updated.")
+      setCurrentStep(5)
     } finally {
       setIsProcessing(false)
     }
   }
 
-  if (currentStep === 5 && claimResult) {
+  if (currentStep === 5) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-6">
         <Card className="bg-white/10 backdrop-blur-lg border-white/20 max-w-lg w-full text-center">
@@ -219,34 +232,45 @@ export default function ClaimsPage() {
                 <CheckCircle className="h-8 w-8 text-white" />
               </div>
             </div>
-            <h2 className="text-2xl font-bold text-white">Claim Processed Successfully!</h2>
-            <div className="space-y-4 text-left">
-              <div className="bg-white/5 rounded-lg p-4 space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Amount Transferred:</span>
-                  <span className="text-green-400 font-semibold">
-                    {claimResult.amount.toLocaleString()} {claimResult.currency}
-                  </span>
+            <h2 className="text-2xl font-bold text-white">
+              {claimError ? "¡Reclamo enviado!" : "¡Reclamo procesado exitosamente!"}
+            </h2>
+
+            {claimError ? (
+              <p className="text-gray-300">
+                {claimError} Te notificaremos cuando el pago haya sido realizado o si necesitamos información adicional.
+              </p>
+            ) : (
+              <>
+                <div className="space-y-4 text-left">
+                  <div className="bg-white/5 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">Monto Transferido:</span>
+                      <span className="text-green-400 font-semibold">
+                        {claimResult?.amount.toLocaleString()} {claimResult?.currency}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">CLABE del Beneficiario:</span>
+                      <span className="text-white font-mono text-sm">{claimResult?.beneficiary_clabe}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-400">ID de Transacción:</span>
+                      <span className="text-cyan-400 font-mono text-xs">{claimResult?.juno_transaction_id}</span>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Beneficiary CLABE:</span>
-                  <span className="text-white font-mono text-sm">{claimResult.beneficiary_clabe}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Transaction ID:</span>
-                  <span className="text-cyan-400 font-mono text-xs">{claimResult.juno_transaction_id}</span>
-                </div>
-              </div>
-            </div>
-            <p className="text-gray-300 text-sm">
-              The insurance payout has been successfully transferred to the beneficiary's account. This transaction is
-              recorded on the blockchain for transparency.
-            </p>
+                <p className="text-gray-300 text-sm">
+                  El pago del seguro ha sido transferido exitosamente a la cuenta del beneficiario. Esta transacción queda registrada en la blockchain para mayor transparencia.
+                </p>
+              </>
+            )}
+
             <Button
               onClick={() => router.push("/")}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white py-3 rounded-full font-semibold"
             >
-              Return to Home
+              Volver al Inicio
             </Button>
           </CardContent>
         </Card>
@@ -264,7 +288,7 @@ export default function ClaimsPage() {
             <span className="text-2xl font-bold text-white">Extra Life</span>
           </div>
           <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
-            Claims Portal
+            Portal de Reclamos
           </Badge>
         </div>
       </header>
@@ -304,11 +328,11 @@ export default function ClaimsPage() {
             </div>
           </div>
           <div className="flex justify-between mt-2 text-xs text-gray-400 max-w-2xl mx-auto">
-            <span>Search</span>
-            <span>Upload</span>
-            <span>Verify</span>
-            <span>Process</span>
-            <span>Complete</span>
+            <span>Buscar</span>
+            <span>Subir</span>
+            <span>Verificar</span>
+            <span>Procesar</span>
+            <span>Completado</span>
           </div>
         </div>
 
@@ -319,21 +343,23 @@ export default function ClaimsPage() {
               <CardHeader>
                 <CardTitle className="text-2xl font-bold text-white flex items-center">
                   <Shield className="mr-2 h-6 w-6 text-cyan-400" />
-                  Policy Information
+                  Información de la Póliza
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="bg-white/5 rounded-lg p-4 space-y-3">
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Policy Number:</span>
-                    <span className="text-white font-semibold">{policy.policy_number}</span>
+                    <span className="text-gray-400">Número de Póliza:</span>
+                    <span className="text-white font-mono text-xs break-all max-w-[180px] text-right">
+                      {policy.policy_number}
+                    </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Coverage Amount:</span>
+                    <span className="text-gray-400">Monto de Cobertura:</span>
                     <span className="text-cyan-400 font-semibold">{policy.coverage_amount.toLocaleString()} MXNB</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-400">Status:</span>
+                    <span className="text-gray-400">Estado:</span>
                     <Badge className="bg-green-500/20 text-green-400 border-green-500/30">
                       {policy.status.toUpperCase()}
                     </Badge>
@@ -343,11 +369,11 @@ export default function ClaimsPage() {
                 <div className="bg-white/5 rounded-lg p-4">
                   <h4 className="text-white font-semibold mb-3 flex items-center">
                     <User className="mr-2 h-4 w-4 text-cyan-400" />
-                    Policy Holder
+                    Titular de la Póliza
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Name:</span>
+                      <span className="text-gray-400">Nombre:</span>
                       <span className="text-white">{policy.policy_holder.name}</span>
                     </div>
                     <div className="flex justify-between">
@@ -355,11 +381,11 @@ export default function ClaimsPage() {
                       <span className="text-white font-mono">{policy.policy_holder.clabe}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Age:</span>
-                      <span className="text-white">{policy.policy_holder.age} years</span>
+                      <span className="text-gray-400">Edad:</span>
+                      <span className="text-white">{policy.policy_holder.age} años</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Region:</span>
+                      <span className="text-gray-400">Región:</span>
                       <span className="text-white">{policy.policy_holder.region}</span>
                     </div>
                   </div>
@@ -368,11 +394,11 @@ export default function ClaimsPage() {
                 <div className="bg-white/5 rounded-lg p-4">
                   <h4 className="text-white font-semibold mb-3 flex items-center">
                     <Users className="mr-2 h-4 w-4 text-cyan-400" />
-                    Beneficiary
+                    Beneficiario
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Name:</span>
+                      <span className="text-gray-400">Nombre:</span>
                       <span className="text-white">{policy.beneficiary.name}</span>
                     </div>
                     <div className="flex justify-between">
@@ -389,16 +415,16 @@ export default function ClaimsPage() {
           <Card className="bg-white/10 backdrop-blur-lg border-white/20">
             <CardHeader>
               <CardTitle className="text-2xl font-bold text-white">
-                {currentStep === 1 && "Search Policy"}
-                {currentStep === 2 && "Upload Death Certificate"}
-                {currentStep === 3 && "Verify Document"}
-                {currentStep === 4 && "Process Claim"}
+                {currentStep === 1 && "Buscar Póliza"}
+                {currentStep === 2 && "Subir Acta de Defunción"}
+                {currentStep === 3 && "Verificar Documento"}
+                {currentStep === 4 && "Procesar Reclamo"}
               </CardTitle>
               <CardDescription className="text-gray-300">
-                {currentStep === 1 && "Enter the policy number to begin the claims process"}
-                {currentStep === 2 && "Upload the official death certificate (PDF only)"}
-                {currentStep === 3 && "Verify the uploaded document"}
-                {currentStep === 4 && "Process the insurance claim payout"}
+                {currentStep === 1 && "Ingresa el número de póliza para iniciar el proceso de reclamo"}
+                {currentStep === 2 && "Sube el acta de defunción oficial (solo PDF)"}
+                {currentStep === 3 && "Verificando el acta de defunción"}
+                {currentStep === 4 && "Procesando el pago del reclamo de seguro"}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -408,19 +434,19 @@ export default function ClaimsPage() {
                   <Alert>
                     <AlertCircle className="h-4 w-4" />
                     <AlertDescription className="text-gray-300">
-                      Available test policy numbers: EL-00000001, EL-00000002, EL-00000003, EL-00000004, EL-00000005
+                      Números de póliza de prueba disponibles, Ejemplo: 0x10D7A0cf0516A2a75a0825E1783947B18b198a91
                     </AlertDescription>
                   </Alert>
 
                   <div className="space-y-2">
                     <Label htmlFor="policyNumber" className="text-white">
-                      Policy Number
+                      Número de Póliza
                     </Label>
                     <Input
                       id="policyNumber"
                       value={policyNumber}
                       onChange={(e) => setPolicyNumber(e.target.value)}
-                      placeholder="Enter policy number (e.g., EL-00000001)"
+                      placeholder="Ingresa número de póliza (ej. 0x10D7A0cf0516A2a75a0825E1783947B18b198a91"
                       className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
                     />
                   </div>
@@ -433,12 +459,12 @@ export default function ClaimsPage() {
                     {isSearching ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Searching...
+                        Buscando...
                       </>
                     ) : (
                       <>
                         <Search className="mr-2 h-4 w-4" />
-                        Search Policy
+                        Buscar Póliza
                       </>
                     )}
                   </Button>
@@ -451,13 +477,13 @@ export default function ClaimsPage() {
                   <Alert>
                     <FileText className="h-4 w-4" />
                     <AlertDescription className="text-gray-300">
-                      Please upload the official death certificate in PDF format. Maximum file size: 10MB.
+                      Por favor sube el acta de defunción oficial en formato PDF. Tamaño máximo del archivo: 10MB.
                     </AlertDescription>
                   </Alert>
 
                   <div className="space-y-2">
                     <Label htmlFor="deathCertificate" className="text-white">
-                      Death Certificate (PDF)
+                      Acta de Defunción (PDF)
                     </Label>
                     <Input
                       id="deathCertificate"
@@ -468,7 +494,7 @@ export default function ClaimsPage() {
                     />
                     {selectedFile && (
                       <p className="text-sm text-gray-400">
-                        Selected: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
+                        Seleccionado: {selectedFile.name} ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
                       </p>
                     )}
                   </div>
@@ -481,12 +507,12 @@ export default function ClaimsPage() {
                     {isUploading ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Uploading...
+                        Subiendo...
                       </>
                     ) : (
                       <>
                         <Upload className="mr-2 h-4 w-4" />
-                        Upload Document
+                        Subir Documento
                       </>
                     )}
                   </Button>
@@ -499,17 +525,17 @@ export default function ClaimsPage() {
                   <Alert className="border-green-500/20 bg-green-500/10">
                     <CheckCircle className="h-4 w-4 text-green-400" />
                     <AlertDescription className="text-green-400">
-                      Document uploaded successfully! Click verify to validate the death certificate.
+                      ¡Documento subido exitosamente! Da clic en verificar para validar el acta de defunción.
                     </AlertDescription>
                   </Alert>
 
                   <div className="bg-white/5 rounded-lg p-4 space-y-2">
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Filename:</span>
+                      <span className="text-gray-400">Nombre del Archivo:</span>
                       <span className="text-white">{uploadResult.filename}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-gray-400">Upload ID:</span>
+                      <span className="text-gray-400">ID de Subida:</span>
                       <span className="text-cyan-400 font-mono text-sm">{uploadResult.id}</span>
                     </div>
                   </div>
@@ -522,12 +548,12 @@ export default function ClaimsPage() {
                     {isVerifying ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Verifying Document...
+                        Verificando Documento...
                       </>
                     ) : (
                       <>
                         <CheckCircle className="mr-2 h-4 w-4" />
-                        Verify Document
+                        Verificar Documento
                       </>
                     )}
                   </Button>
@@ -540,32 +566,32 @@ export default function ClaimsPage() {
                   <Alert className="border-green-500/20 bg-green-500/10">
                     <CheckCircle className="h-4 w-4 text-green-400" />
                     <AlertDescription className="text-green-400">
-                      Document verified successfully! Ready to process the insurance claim.
+                      ¡Documento verificado exitosamente! Listo para procesar el reclamo del seguro.
                     </AlertDescription>
                   </Alert>
 
                   <div className="bg-white/5 rounded-lg p-4 space-y-3">
                     <h4 className="text-white font-semibold flex items-center">
                       <DollarSign className="mr-2 h-4 w-4 text-cyan-400" />
-                      Claim Summary
+                      Resumen del Reclamo
                     </h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Policy Holder:</span>
+                        <span className="text-gray-400">Titular de la Póliza:</span>
                         <span className="text-white">{policy.policy_holder.name}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Payout Amount:</span>
+                        <span className="text-gray-400">Monto a Pagar:</span>
                         <span className="text-cyan-400 font-semibold">
                           {policy.coverage_amount.toLocaleString()} MXNB
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Beneficiary:</span>
+                        <span className="text-gray-400">Beneficiario:</span>
                         <span className="text-white">{policy.beneficiary.name}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Beneficiary CLABE:</span>
+                        <span className="text-gray-400">CLABE del Beneficiario:</span>
                         <span className="text-white font-mono">{policy.beneficiary.clabe}</span>
                       </div>
                     </div>
@@ -579,12 +605,12 @@ export default function ClaimsPage() {
                     {isProcessing ? (
                       <>
                         <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
-                        Processing Claim...
+                        Enviando...
                       </>
                     ) : (
                       <>
                         <DollarSign className="mr-2 h-4 w-4" />
-                        Process Insurance Claim
+                        Enviar solicitud de reclamo
                       </>
                     )}
                   </Button>

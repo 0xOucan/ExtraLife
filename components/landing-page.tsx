@@ -21,23 +21,23 @@ export default function LandingPage() {
   const benefits = [
     {
       icon: Shield,
-      title: "Secure Protection",
-      description: "Blockchain-secured insurance policies with transparent smart contracts",
+      title: "Protección Segura",
+      description: "Pólizas de seguro respaldadas por blockchain con contratos inteligentes transparentes",
     },
     {
       icon: TrendingUp,
-      title: "Stable Returns",
-      description: "MXNB stablecoin ensures your policy value remains stable against peso fluctuations",
+      title: "Rendimientos Estables",
+      description: "La moneda estable MXNB garantiza que el valor de tu póliza se mantenga estable ante fluctuaciones del peso",
     },
     {
       icon: Users,
-      title: "Family Coverage",
-      description: "Comprehensive coverage for you and your beneficiaries",
+      title: "Cobertura Familiar",
+      description: "Cobertura completa para ti y tus beneficiarios",
     },
     {
       icon: Zap,
-      title: "Instant Claims",
-      description: "Fast, automated claim processing through smart contracts",
+      title: "Reclamos Instantáneos",
+      description: "Procesamiento rápido y automatizado de reclamos mediante contratos inteligentes",
     },
   ]
 
@@ -57,13 +57,13 @@ export default function LandingPage() {
               className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 px-6 py-2 rounded-full font-semibold"
             >
               <FileText className="mr-2 h-4 w-4" />
-              File Claim
+              Iniciar Reclamo
             </Button>
             <Button
               onClick={() => router.push("/dapp")}
               className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
             >
-              Launch Dapp
+              Lanzar Aplicación
             </Button>
           </div>
         </div>
@@ -77,10 +77,10 @@ export default function LandingPage() {
 
         <div className="relative z-10 text-center text-white max-w-4xl mx-auto px-6">
           <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-            Extra Life Protection
+            Protección con Extra Life
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-gray-300">
-            Secure your future with blockchain-powered insurance policies backed by MXNB stablecoin
+            Asegura tu futuro con pólizas de seguro impulsadas por blockchain y respaldadas por la moneda estable MXNB
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -88,7 +88,7 @@ export default function LandingPage() {
               size="lg"
               className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105"
             >
-              Get Started Now
+              Comenzar Ahora
             </Button>
             <Button
               onClick={() => router.push("/claims")}
@@ -97,7 +97,7 @@ export default function LandingPage() {
               className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 px-12 py-4 rounded-full text-lg font-semibold"
             >
               <FileText className="mr-2 h-5 w-5" />
-              File a Claim
+              Iniciar un Reclamo
             </Button>
           </div>
         </div>
@@ -106,7 +106,7 @@ export default function LandingPage() {
       {/* Benefits Section */}
       <section className="py-20 px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-16">Why Choose Extra Life?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-16">¿Por qué elegir Extra Life?</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => (
               <div
@@ -125,9 +125,9 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="py-20 px-6 text-center">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Ready to Secure Your Future?</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">¿Listo para asegurar tu futuro?</h2>
           <p className="text-xl text-gray-300 mb-12">
-            Join thousands of Mexicans who trust Extra Life for their protection needs
+            Únete a miles de mexicanos que confían en Extra Life para protegerse
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
@@ -135,7 +135,7 @@ export default function LandingPage() {
               size="lg"
               className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white px-12 py-4 rounded-full text-lg font-semibold transition-all duration-300 transform hover:scale-105"
             >
-              Launch Dapp
+              Lanzar Aplicación
             </Button>
             <Button
               onClick={() => router.push("/claims")}
@@ -144,7 +144,7 @@ export default function LandingPage() {
               className="border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 px-12 py-4 rounded-full text-lg font-semibold"
             >
               <FileText className="mr-2 h-5 w-5" />
-              File a Claim
+              Iniciar Reclamo
             </Button>
           </div>
         </div>

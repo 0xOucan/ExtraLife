@@ -86,9 +86,9 @@ export default function DappPage() {
       <div className="max-w-4xl mx-auto">
         <Card className="bg-white/10 backdrop-blur-lg border-white/20">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold text-white mb-2">Get Your Insurance Quote</CardTitle>
+            <CardTitle className="text-3xl font-bold text-white mb-2">Obtén tu Cotización de Seguro</CardTitle>
             <CardDescription className="text-gray-300 text-lg">
-              Provide your information to calculate your premium and proceed with your policy
+              Proporciona tu información para calcular tu prima y continuar con tu póliza
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-8">
@@ -96,15 +96,15 @@ export default function DappPage() {
             <div className="space-y-4">
               <div className="flex items-center space-x-2 text-white">
                 <User className="h-5 w-5 text-cyan-400" />
-                <label className="text-lg font-semibold">Gender</label>
+                <label className="text-lg font-semibold">Género</label>
               </div>
               <Select value={gender} onValueChange={setGender}>
                 <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                  <SelectValue placeholder="Select your gender" />
+                  <SelectValue placeholder="Selecciona tu género" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="male">Male</SelectItem>
-                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="male">Hombre</SelectItem>
+                  <SelectItem value="female">Mujer</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -114,10 +114,10 @@ export default function DappPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2 text-white">
                   <Calendar className="h-5 w-5 text-cyan-400" />
-                  <label className="text-lg font-semibold">Age</label>
+                  <label className="text-lg font-semibold">Edad</label>
                 </div>
                 <Badge variant="outline" className="border-cyan-500/30 text-cyan-400">
-                  {age[0]} years
+                  {age[0]} años
                 </Badge>
               </div>
               <Slider value={age} onValueChange={setAge} max={99} min={18} step={1} className="w-full" />
@@ -131,11 +131,11 @@ export default function DappPage() {
             <div className="space-y-4">
               <div className="flex items-center space-x-2 text-white">
                 <MapPin className="h-5 w-5 text-cyan-400" />
-                <label className="text-lg font-semibold">Region</label>
+                <label className="text-lg font-semibold">Estado</label>
               </div>
               <Select value={region} onValueChange={setRegion}>
                 <SelectTrigger className="bg-white/10 border-white/20 text-white">
-                  <SelectValue placeholder="Select your state" />
+                  <SelectValue placeholder="Selecciona tu estado" />
                 </SelectTrigger>
                 <SelectContent className="max-h-60">
                   {mexicanStates.map((state) => (
@@ -151,12 +151,12 @@ export default function DappPage() {
             <div className="space-y-4">
               <div className="flex items-center space-x-2 text-white">
                 <User className="h-5 w-5 text-cyan-400" />
-                <label className="text-lg font-semibold">Your Full Name</label>
+                <label className="text-lg font-semibold">Tu Nombre Completo</label>
               </div>
               <Input
                 value={policyHolderName}
                 onChange={(e) => setPolicyHolderName(e.target.value)}
-                placeholder="Enter your full name"
+                placeholder="Escribe tu nombre completo"
                 className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
               />
             </div>
@@ -164,22 +164,22 @@ export default function DappPage() {
             {/* Coverage Preview */}
             {canProceed() && (
               <div className="bg-white/5 rounded-lg p-6 space-y-4">
-                <h3 className="text-xl font-semibold text-white mb-4">Your Coverage Preview</h3>
+                <h3 className="text-xl font-semibold text-white mb-4">Resumen de tu Cobertura</h3>
                 <div className="text-center space-y-2">
                   <div className="flex items-center justify-center space-x-2 text-white">
                     <DollarSign className="h-6 w-6 text-cyan-400" />
-                    <span className="text-lg font-semibold">Coverage Amount</span>
+                    <span className="text-lg font-semibold">Monto de Cobertura</span>
                   </div>
                   <div className="text-4xl font-bold text-cyan-400">1,000,000</div>
                   <div className="text-lg text-gray-300">MXNB</div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm mt-4">
                   <div>
-                    <span className="text-gray-400">Annual Premium:</span>
+                    <span className="text-gray-400">Prima Anual:</span>
                     <span className="text-white ml-2 font-semibold">10,000 MXNB</span>
                   </div>
                   <div>
-                    <span className="text-gray-400">Monthly:</span>
+                    <span className="text-gray-400">Mensual:</span>
                     <span className="text-white ml-2 font-semibold">833 MXNB</span>
                   </div>
                 </div>
@@ -191,7 +191,7 @@ export default function DappPage() {
               disabled={!canProceed()}
               className="w-full bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 disabled:from-gray-600 disabled:to-gray-600 text-white py-4 rounded-full font-semibold transition-all duration-300"
             >
-              Proceed to Checkout
+              Continuar al Pago
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </CardContent>
